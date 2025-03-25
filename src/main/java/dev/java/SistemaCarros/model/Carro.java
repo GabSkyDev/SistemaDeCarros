@@ -1,6 +1,8 @@
 package dev.java.SistemaCarros.model;
 
 import jakarta.persistence.*;
+import dev.java.SistemaCarros.model.Usuario;
+import java.util.List;
 
 @Entity
 @Table(name = "carro")
@@ -16,6 +18,12 @@ public class Carro {
     private String tipo_combustivel;
     private String transmissao;
 
+    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ServicoRealizado> servicos;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
     public Carro() {
 
     }
