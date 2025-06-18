@@ -1,4 +1,4 @@
-package dev.java.SistemaCarros.model;
+ package dev.java.SistemaCarros.model;
 
 import jakarta.persistence.*;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long id;
+
     private String cpf;
     private String nome;
     private String email;
@@ -19,8 +19,8 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Long id_usuario, String cpf, String nome, String email, String telefone, List<Carro> carrosRegistrados) {
-        this.id_usuario = id_usuario;
+    public Usuario(Long id, String cpf, String nome, String email, String telefone, List<Carro> carrosRegistrados) {
+        this.id = id;
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
@@ -28,12 +28,12 @@ public class Usuario {
         this.carrosRegistrados = carrosRegistrados;
     }
 
-    public Long getId_usuario() {
-        return id_usuario;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCpf() {

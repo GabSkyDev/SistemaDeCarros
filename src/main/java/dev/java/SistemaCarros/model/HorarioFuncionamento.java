@@ -8,10 +8,9 @@ import java.time.DayOfWeek;
 @Entity
 @Table(name = "horario_funcionamento")
 public class HorarioFuncionamento {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_horario;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "dia_semana", nullable = false)
@@ -23,7 +22,7 @@ public class HorarioFuncionamento {
     @Column(name = "fechamento", nullable = false)
     private LocalTime fechamento;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "mecanica_id", nullable = false)
     private Mecanica mecanica;
 
@@ -36,12 +35,12 @@ public class HorarioFuncionamento {
         this.mecanica = mecanica;
     }
 
-    public Long getId_horario() {
-        return id_horario;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_horario(Long id_horario) {
-        this.id_horario = id_horario;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DayOfWeek getDiaSemana() {

@@ -2,15 +2,14 @@ package dev.java.SistemaCarros.model;
 
 import jakarta.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "mecanica")
 public class Mecanica {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_mecanica;
+    private Long id;
+
     private String cnpj;
     private String nome;
     private String endereco;
@@ -21,16 +20,16 @@ public class Mecanica {
     @CollectionTable(name = "mecanica_especialidades", joinColumns = @JoinColumn(name = "mecanica_id"))
     private List<String> especialidades;
 
-    @OneToMany(mappedBy = "mecanica", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HorarioFuncionamento> horarios;
+    @OneToOne(mappedBy = "mecanica", cascade = CascadeType.ALL, orphanRemoval = true)
+    private HorarioFuncionamento horarios;
 
     @OneToMany(mappedBy = "mecanica", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ServicoRealizado> servicos;
 
     public Mecanica() {}
 
-    public Mecanica(Long id_mecanica, String cnpj, String nome, String endereco, String email, String telefone, List<String> especialidades, List<HorarioFuncionamento> horarios, List<ServicoRealizado> servicos) {
-        this.id_mecanica = id_mecanica;
+    public Mecanica(Long id, String cnpj, String nome, String endereco, String email, String telefone, List<String> especialidades, HorarioFuncionamento horarios, List<ServicoRealizado> servicos) {
+        this.id = id;
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
@@ -41,12 +40,12 @@ public class Mecanica {
         this.servicos = servicos;
     }
 
-    public Long getId_mecanica() {
-        return id_mecanica;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_mecanica(Long id_mecanica) {
-        this.id_mecanica = id_mecanica;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCnpj() {
@@ -97,11 +96,11 @@ public class Mecanica {
         this.especialidades = especialidades;
     }
 
-    public List<HorarioFuncionamento> getHorarios() {
+    public HorarioFuncionamento getHorarios() {
         return horarios;
     }
 
-    public void setHorarios(List<HorarioFuncionamento> horarios) {
+    public void setHorarios(HorarioFuncionamento horarios) {
         this.horarios = horarios;
     }
 

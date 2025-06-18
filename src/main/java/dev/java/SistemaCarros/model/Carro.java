@@ -1,7 +1,6 @@
 package dev.java.SistemaCarros.model;
 
 import jakarta.persistence.*;
-import dev.java.SistemaCarros.model.Usuario;
 import java.util.List;
 
 @Entity
@@ -9,42 +8,42 @@ import java.util.List;
 public class Carro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_carro;
+    private Long id;
     private String placa;
     private String modelo;
     private String marca;
-    private Integer ano_fabricacao;
+    private Integer anoFabricacao;
     private String cor;
-    private String tipo_combustivel;
+    private String tipoCombustivel;
     private String transmissao;
 
     @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ServicoRealizado> servicos;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     public Carro() {
 
     }
 
-    public Carro(Long id_carro, String placa, String modelo, String marca, Integer ano_fabricacao, String cor, String tipo_combustivel, String transmissao) {
-        this.id_carro = id_carro;
+    public Carro(Long id, String placa, String modelo, String marca, Integer anoFabricacao, String cor, String tipoCombustivel, String transmissao) {
+        this.id = id;
         this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
-        this.ano_fabricacao = ano_fabricacao;
+        this.anoFabricacao = anoFabricacao;
         this.cor = cor;
-        this.tipo_combustivel = tipo_combustivel;
+        this.tipoCombustivel = tipoCombustivel;
         this.transmissao = transmissao;
     }
 
-    public Long getId_carro() {
-        return id_carro;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_carro(Long id_carro) {
-        this.id_carro = id_carro;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getPlaca() {
@@ -71,12 +70,12 @@ public class Carro {
         this.marca = marca;
     }
 
-    public Integer getAno_fabricacao() {
-        return ano_fabricacao;
+    public Integer getAnoFabricacao() {
+        return anoFabricacao;
     }
 
-    public void setAno_fabricacao(Integer ano_fabricacao) {
-        this.ano_fabricacao = ano_fabricacao;
+    public void setAnoFabricacao(Integer anoFabricacao) {
+        this.anoFabricacao = anoFabricacao;
     }
 
     public String getCor() {
@@ -87,12 +86,12 @@ public class Carro {
         this.cor = cor;
     }
 
-    public String getTipo_combustivel() {
-        return tipo_combustivel;
+    public String getTipoCombustivel() {
+        return tipoCombustivel;
     }
 
-    public void setTipo_combustivel(String tipo_combustivel) {
-        this.tipo_combustivel = tipo_combustivel;
+    public void setTipoCombustivel(String tipoCombustivel) {
+        this.tipoCombustivel = tipoCombustivel;
     }
 
     public String getTransmissao() {
