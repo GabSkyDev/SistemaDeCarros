@@ -1,9 +1,4 @@
-# 🚗 Sistema de Gerenciamento de Serviços Automotivos
-
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-00758F?style=for-the-badge&logo=mysql&logoColor=white)
-
+# Sistema de Gerenciamento de Serviços Automotivos
 
 ## Status do Projeto
 **Em desenvolvimento...**
@@ -16,7 +11,7 @@
 - **Gerenciamento de Dependências:** Maven
 
 
-## 🎯 Objetivo do Projeto
+## Objetivo do Projeto
 Este projeto tem como objetivo desenvolver uma **API RESTful** robusta e eficiente para o gerenciamento de serviços automotivos, atendendo tanto às oficinas mecânicas quanto aos seus clientes.
 
 🔧 **Para oficinas:**
