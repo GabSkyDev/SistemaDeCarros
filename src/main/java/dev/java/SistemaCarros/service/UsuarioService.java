@@ -20,21 +20,27 @@ public class UsuarioService {
     public List<Usuario> buscarTodosUsuarios(){
         return usuarioRepository.findAll();
     }
-
-    public Optional<Usuario> buscarPorCPF(String cpf){
-        return usuarioRepository.findByCpf(cpf);
+    public Usuario buscarPorId(Long id){
+        return usuarioRepository.findById(id)
+                .orElseThrow(() ->  new RuntimeException("Usuário não encontrado!"));
+    }
+    public Usuario criarUsuario(Usuario usuario){
+        return usuarioRepository.save(usuario);
+    }
+    public void deletarUsuarioPorId(Long id){
+        usuarioRepository.deleteById(id);
     }
 
-    public List<Usuario> buscarPorNome(String nome){
-        return usuarioRepository.findByNome(nome);
-    }
+    public Usuario atualizarUsuario(Long id, Usuario usuarioRequest){
+        Usuario usuario = buscarPorId(id);
 
-    public Optional<Usuario> buscarPorEmail(String email){
-        return usuarioRepository.findByEmail(email);
-    }
+        usuario.setNome(usuarioRequest.getNome());
+        usuario.setCpf(usuarioRequest.getCpf());
+        usuario.setEmail(usuarioRequest.getEmail());
+        usuario.setTelefone(usuarioRequest.getTelefone());
+        usuario.getCarrosRegistrados().clear();
+        usuario.getCarrosRegistrados().addAll(usuarioRequest.getCarrosRegistrados());
 
-    public Optional<Usuario> buscarPorTelefone(String telefone){
-        return usuarioRepository.findByTelefone(telefone);
+        return usuarioRepository.save(usuario);
     }
-
 }

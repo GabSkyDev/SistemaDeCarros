@@ -5,42 +5,19 @@ import java.time.LocalTime;
 import java.time.DayOfWeek;
 
 
-@Entity
-@Table(name = "horario_funcionamento")
+@Embeddable
 public class HorarioFuncionamento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "dia_semana", nullable = false)
     private DayOfWeek diaSemana;
-
-    @Column(name = "abertura", nullable = false)
     private LocalTime abertura;
-
-    @Column(name = "fechamento", nullable = false)
     private LocalTime fechamento;
-
-    @OneToOne
-    @JoinColumn(name = "mecanica_id", nullable = false)
-    private Mecanica mecanica;
 
     public HorarioFuncionamento() {}
 
-    public HorarioFuncionamento(DayOfWeek diaSemana, LocalTime abertura, LocalTime fechamento, Mecanica mecanica) {
+    public HorarioFuncionamento(DayOfWeek diaSemana, LocalTime abertura, LocalTime fechamento) {
         this.diaSemana = diaSemana;
         this.abertura = abertura;
         this.fechamento = fechamento;
-        this.mecanica = mecanica;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public DayOfWeek getDiaSemana() {
@@ -65,13 +42,5 @@ public class HorarioFuncionamento {
 
     public void setFechamento(LocalTime fechamento) {
         this.fechamento = fechamento;
-    }
-
-    public Mecanica getMecanica() {
-        return mecanica;
-    }
-
-    public void setMecanica(Mecanica mecanica) {
-        this.mecanica = mecanica;
     }
 }

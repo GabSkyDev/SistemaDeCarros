@@ -21,39 +21,31 @@ public class CarroService {
         return carroRepository.findAll();
     }
 
-    public Optional<Carro> buscarPorId(Long id){
-        return carroRepository.findById(id);
+    public Carro buscarPorId(Long id){
+        return carroRepository.findById(id)
+                .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));
     }
 
-    public Optional<Carro> buscarPorPlaca(String placa){
-        return carroRepository.findByPlaca(placa);
+    public Carro criarCarro(Carro carro){
+        return carroRepository.save(carro);
     }
 
-    public List<Carro> buscarPorModelo(String modelo){
-        return carroRepository.findByModelo(modelo);
+    public void deletarCarro(Long id){
+        carroRepository.deleteById(id);
     }
 
-    public List<Carro> buscarPorMarca(String marca){
-        return carroRepository.findByMarca(marca);
+    public Carro atualizarCarro(Long id, Carro carroRequest){
+        Carro carro = buscarPorId(id);
+
+        carro.setPlaca(carroRequest.getPlaca());
+        carro.setMarca(carroRequest.getMarca());
+        carro.setModelo(carroRequest.getModelo());
+        carro.setCor(carroRequest.getCor());
+        carro.setAnoFabricacao(carroRequest.getAnoFabricacao());
+        carro.setTipoCombustivel(carroRequest.getTipoCombustivel());
+        carro.setTransmissao(carroRequest.getTransmissao());
+
+        return carroRepository.save(carro);
     }
 
-    public List<Carro> buscarPorAnoFabricacao(Integer anoFabricacao){
-        return carroRepository.findByAnoFabricacao(anoFabricacao);
-    }
-
-    public List<Carro> buscarPorCor(String cor){
-        return carroRepository.findByCor(cor);
-    }
-
-    public List<Carro> buscarPorTipoCombustivel(String tipoCombustivel){
-        return carroRepository.findByTipoCombustivel(tipoCombustivel);
-    }
-
-    public List<Carro> buscarPorTransmissao(String transmissao){
-        return carroRepository.findByTransmissao(transmissao);
-    }
-
-    public List<Carro> buscarCarroPorUsuarioId(Long usuarioId){
-        return carroRepository.findByUsuarioId(usuarioId);
-    }
 }

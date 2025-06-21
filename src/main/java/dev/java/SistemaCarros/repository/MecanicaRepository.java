@@ -13,13 +13,5 @@ import java.util.Optional;
 
 @Repository
 public interface MecanicaRepository extends JpaRepository<Mecanica, Long> {
-    Optional<Mecanica> findByCnpj(String cnpj);
-    List<Mecanica> findByNome(String nome);
-    List<Mecanica> findByEndereco(String endereco);
-    Optional<Mecanica> findByEmail(String email);
-    Optional<Mecanica> findByTelefone(String telefone);
-    List<Mecanica> findEspecialidadeById(Long id);
-    Optional<HorarioFuncionamento> findHorarioMecanicaById(Long mecanicaId);
-    List<ServicoRealizado> findServicoById(Long idMecanica);
 
 }

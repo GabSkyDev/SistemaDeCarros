@@ -6,6 +6,7 @@ import dev.java.SistemaCarros.model.ServicoRealizado;
 import dev.java.SistemaCarros.repository.MecanicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,38 +25,36 @@ public class MecanicaService {
         return mecanicaRepository.findAll();
     }
 
-    public Optional<Mecanica> buscarPorId(Long id){
-        return mecanicaRepository.findById(id);
+    public Mecanica buscarPorId(Long id){
+        return mecanicaRepository.findById(id)
+                .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));
     }
 
-    public Optional<Mecanica> buscarPorCNPJ(String cnpj){
-        return mecanicaRepository.findByCnpj(cnpj);
+    public Mecanica criarMecanica(Mecanica mecanica) {
+        if (mecanica.getServicos() != null){
+            for (ServicoRealizado servico : mecanica.getServicos()){
+                servico.setMecanica(mecanica);
+            }
+        }
+        return mecanicaRepository.save(mecanica);
     }
 
-    public List<Mecanica> buscarPorNome(String nome){
-        return mecanicaRepository.findByNome(nome);
+    public void deletarMecanicaPorId(Long id){
+        mecanicaRepository.deleteById(id);
     }
+    public Mecanica atualizarMecanica(Long id, Mecanica mecanicaRequest){
+        Mecanica mecanica = buscarPorId(id);
 
-    public List<Mecanica> buscarPorEndereco(String endereco){
-        return mecanicaRepository.findByEndereco(endereco);
-    }
+        mecanica.setNome(mecanicaRequest.getNome());
+        mecanica.setCnpj(mecanicaRequest.getCnpj());
+        mecanica.setEmail(mecanicaRequest.getEmail());
+        mecanica.setEndereco(mecanicaRequest.getEndereco());
+        mecanica.setHorarios(mecanicaRequest.getHorarios());
+        mecanica.getEspecialidades().clear();
+        mecanica.getServicos().clear();
+        mecanica.setEspecialidades(mecanicaRequest.getEspecialidades());
+        mecanica.setServicos(mecanicaRequest.getServicos());
 
-    public Optional<Mecanica> buscarPorEmail(String email){
-        return mecanicaRepository.findByEmail(email);
-    }
-
-    public Optional<Mecanica> buscarPorTelefone(String telefone){
-        return mecanicaRepository.findByTelefone(telefone);
-    }
-    public List<Mecanica> buscarEspecialidadesPorId(Long idMecanica){
-        return mecanicaRepository.findEspecialidadeById(idMecanica);
-    }
-
-    public Optional<HorarioFuncionamento> buscarHorarioPorId(Long mecanicaId){
-        return mecanicaRepository.findHorarioMecanicaById(mecanicaId);
-    }
-
-    public List<ServicoRealizado> buscarServicoPorId(Long idMecanica){
-        return mecanicaRepository.findServicoById(idMecanica);
+        return mecanicaRepository.save(mecanica);
     }
 }

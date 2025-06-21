@@ -17,7 +17,7 @@ public class ServicoRealizado {
     private BigDecimal valorPago;
 
     @ManyToOne
-    @JoinColumn(name = "mecanica_id")
+    @JoinColumn(name = "mecanica_id", nullable = false)
     private Mecanica mecanica;
 
     @ManyToOne

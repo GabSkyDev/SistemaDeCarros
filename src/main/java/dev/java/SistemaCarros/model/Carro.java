@@ -17,7 +17,7 @@ public class Carro {
     private String tipoCombustivel;
     private String transmissao;
 
-    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
     private List<ServicoRealizado> servicos;
 
     @ManyToOne
