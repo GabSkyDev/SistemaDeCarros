@@ -66,7 +66,7 @@ Este projeto tem como objetivo desenvolver uma **API RESTful** robusta e eficien
 git clone https://github.com/GabSkyDev/SistemaDeCarros.git
 
 # Acesse a pasta do projeto
-cd seu-repositorio
+cd SistemaDeCarros
 
 # Configure seu application.properties com os dados do seu banco MySQL
 
