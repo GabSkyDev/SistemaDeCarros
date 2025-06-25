@@ -6,12 +6,11 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "servico_realizado")
-public class ServicoRealizado {
+public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String descricao;
     private LocalDate dataServico;
     private BigDecimal valorPago;
@@ -25,12 +24,12 @@ public class ServicoRealizado {
     private Carro carro;
 
 
-    public ServicoRealizado() {
+    public Servico() {
     }
 
     
-    public ServicoRealizado(Long id, String descricao, LocalDate dataServico, BigDecimal valorPago, Mecanica mecanica,
-            Carro carro) {
+    public Servico(Long id, String descricao, LocalDate dataServico, BigDecimal valorPago, Mecanica mecanica,
+                   Carro carro) {
         this.id = id;
         this.descricao = descricao;
         this.dataServico = dataServico;

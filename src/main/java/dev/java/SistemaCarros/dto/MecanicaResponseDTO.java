@@ -1,37 +1,23 @@
-package dev.java.SistemaCarros.model;
+package dev.java.SistemaCarros.dto;
 
-import jakarta.persistence.*;
+import dev.java.SistemaCarros.model.HorarioFuncionamento;
+import dev.java.SistemaCarros.model.Servico;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "mecanica")
-public class Mecanica {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class MecanicaResponseDTO {
     private String cnpj;
     private String nome;
     private String endereco;
     private String email;
     private String telefone;
-
-    @ElementCollection
-    @CollectionTable(name = "mecanica_especialidades", joinColumns = @JoinColumn(name = "mecanica_id"))
     private List<String> especialidades;
-
-    @ElementCollection
-    @CollectionTable(name = "mecanica_horarios", joinColumns = @JoinColumn(name = "mecanica_id"))
     private List<HorarioFuncionamento> horarios;
+    public MecanicaResponseDTO() {
 
-    @OneToMany(mappedBy = "mecanica", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Servico> servicos = new ArrayList<>();
+    }
 
-    public Mecanica() {}
-
-    public Mecanica(Long id, String cnpj, String nome, String endereco, String email, String telefone, List<String> especialidades, List<HorarioFuncionamento> horarios, List<Servico> servicos) {
-        this.id = id;
+    public MecanicaResponseDTO(String cnpj, String nome, String endereco, String email, String telefone, List<String> especialidades, List<HorarioFuncionamento> horarios) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
@@ -39,15 +25,6 @@ public class Mecanica {
         this.telefone = telefone;
         this.especialidades = especialidades;
         this.horarios = horarios;
-        this.servicos = servicos;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCnpj() {
@@ -105,13 +82,4 @@ public class Mecanica {
     public void setHorarios(List<HorarioFuncionamento> horarios) {
         this.horarios = horarios;
     }
-
-    public List<Servico> getServicos() {
-        return servicos;
-    }
-
-    public void setServicos(List<Servico> servicos) {
-        this.servicos = servicos;
-    }
 }
-

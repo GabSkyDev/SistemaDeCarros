@@ -1,15 +1,14 @@
 package dev.java.SistemaCarros.service;
 
-import dev.java.SistemaCarros.model.HorarioFuncionamento;
+import dev.java.SistemaCarros.dto.MecanicaRequestDTO;
+import dev.java.SistemaCarros.dto.MecanicaResponseDTO;
 import dev.java.SistemaCarros.model.Mecanica;
-import dev.java.SistemaCarros.model.ServicoRealizado;
+import dev.java.SistemaCarros.model.Servico;
 import dev.java.SistemaCarros.repository.MecanicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MecanicaService {
@@ -21,40 +20,104 @@ public class MecanicaService {
         this.mecanicaRepository = mecanicaRepository;
     }
 
-    public List<Mecanica> buscarTodasMecanicas(){
-        return mecanicaRepository.findAll();
+    public List<MecanicaResponseDTO> buscarTodasMecanicas(){
+        List<Mecanica> mecanica = mecanicaRepository.findAll();
+
+        return mecanica
+                .stream()
+                .map(this::mecanicaParaResponseDTO)
+                .toList();
     }
 
-    public Mecanica buscarPorId(Long id){
-        return mecanicaRepository.findById(id)
+    public MecanicaResponseDTO buscarPorId(Long id){
+        Mecanica mecanica = mecanicaRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));
+
+        return mecanicaParaResponseDTO(mecanica);
+
     }
 
-    public Mecanica criarMecanica(Mecanica mecanica) {
-        if (mecanica.getServicos() != null){
-            for (ServicoRealizado servico : mecanica.getServicos()){
-                servico.setMecanica(mecanica);
-            }
-        }
-        return mecanicaRepository.save(mecanica);
+    public MecanicaResponseDTO criarMecanica(MecanicaRequestDTO mecanicaDTO) {
+        Mecanica mecanica = requestMecanicaParaEntidade(mecanicaDTO);
+
+        mecanica.getServicos().forEach(servico -> servico.setMecanica(mecanica));
+
+        Mecanica mecanicaSalva = mecanicaRepository.save(mecanica);
+        return mecanicaParaResponseDTO(mecanicaSalva);
     }
 
     public void deletarMecanicaPorId(Long id){
+        if (!mecanicaRepository.existsById(id)) {
+            throw new RuntimeException("Mecânica não encontrada");
+        }
         mecanicaRepository.deleteById(id);
     }
-    public Mecanica atualizarMecanica(Long id, Mecanica mecanicaRequest){
-        Mecanica mecanica = buscarPorId(id);
+    public MecanicaResponseDTO atualizarMecanica(Long id, MecanicaRequestDTO mecanicaRequest){
+        Mecanica mecanica = mecanicaRepository.findById(id)
+                .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));;
 
         mecanica.setNome(mecanicaRequest.getNome());
         mecanica.setCnpj(mecanicaRequest.getCnpj());
         mecanica.setEmail(mecanicaRequest.getEmail());
         mecanica.setEndereco(mecanicaRequest.getEndereco());
         mecanica.setHorarios(mecanicaRequest.getHorarios());
-        mecanica.getEspecialidades().clear();
-        mecanica.getServicos().clear();
         mecanica.setEspecialidades(mecanicaRequest.getEspecialidades());
-        mecanica.setServicos(mecanicaRequest.getServicos());
 
-        return mecanicaRepository.save(mecanica);
+        mecanica.getEspecialidades().clear();
+        List<Servico> servicos = mecanicaRequest.getServicos().stream().map(mecDTO -> {
+            Servico servico = new Servico();
+            servico.setId(mecDTO.getId());
+            servico.setDataServico(mecDTO.getDataServico());
+            servico.setCarro(mecDTO.getCarro());
+            servico.setValorPago(mecDTO.getValorPago());
+            servico.setDescricao(mecDTO.getDescricao());
+            servico.setMecanica(mecanica);
+            return servico;
+        }).toList();
+
+        mecanica.getServicos().addAll(servicos);
+
+        Mecanica mecanicaAtualizada = mecanicaRepository.save(mecanica);
+
+        return mecanicaParaResponseDTO(mecanicaAtualizada);
+    }
+
+    public MecanicaResponseDTO mecanicaParaResponseDTO(Mecanica mecanica){
+        return new MecanicaResponseDTO(
+                mecanica.getCnpj(),
+                mecanica.getNome(),
+                mecanica.getEndereco(),
+                mecanica.getEmail(),
+                mecanica.getTelefone(),
+                mecanica.getEspecialidades(),
+                mecanica.getHorarios()
+        );
+    }
+
+    private Mecanica requestMecanicaParaEntidade(MecanicaRequestDTO mecanicaDTO){
+        Mecanica mecanica = new Mecanica();
+
+        mecanica.setId(mecanicaDTO.getId());
+        mecanica.setCnpj(mecanicaDTO.getCnpj());
+        mecanica.setNome(mecanicaDTO.getNome());
+        mecanica.setEndereco(mecanicaDTO.getEndereco());
+        mecanica.setEmail(mecanicaDTO.getEmail());
+        mecanica.setEspecialidades(mecanicaDTO.getEspecialidades());
+        mecanica.setHorarios(mecanicaDTO.getHorarios());
+
+        List<Servico> servicos = mecanicaDTO.getServicos().stream().map(mecDTO -> {
+            Servico servico = new Servico();
+            servico.setId(mecDTO.getId());
+            servico.setDataServico(mecDTO.getDataServico());
+            servico.setCarro(mecDTO.getCarro());
+            servico.setValorPago(mecDTO.getValorPago());
+            servico.setDescricao(mecDTO.getDescricao());
+            servico.setMecanica(mecanica);
+            return servico;
+        }).toList();
+
+        mecanica.setServicos(servicos);
+
+        return mecanica;
     }
 }

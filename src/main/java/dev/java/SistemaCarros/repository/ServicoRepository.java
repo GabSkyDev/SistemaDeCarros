@@ -1,9 +1,9 @@
 package dev.java.SistemaCarros.repository;
 
-import dev.java.SistemaCarros.model.ServicoRealizado;
+import dev.java.SistemaCarros.model.Servico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ServicoRealizadoRepository extends JpaRepository<ServicoRealizado, Long> {
+public interface ServicoRepository extends JpaRepository<Servico, Long> {
 }

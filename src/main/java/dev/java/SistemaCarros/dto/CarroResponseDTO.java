@@ -1,14 +1,6 @@
-package dev.java.SistemaCarros.model;
+package dev.java.SistemaCarros.dto;
 
-import jakarta.persistence.*;
-import java.util.List;
-
-@Entity
-@Table(name = "carro")
-public class Carro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CarroResponseDTO {
     private String placa;
     private String modelo;
     private String marca;
@@ -16,19 +8,11 @@ public class Carro {
     private String cor;
     private String tipoCombustivel;
     private String transmissao;
-
-    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
-    private List<Servico> servicos;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-    public Carro() {
+    private String cpfUsuario;
+    public CarroResponseDTO(){
 
     }
-
-    public Carro(Long id, String placa, String modelo, String marca, Integer anoFabricacao, String cor, String tipoCombustivel, String transmissao) {
-        this.id = id;
+    public CarroResponseDTO(String placa, String modelo, String marca, Integer anoFabricacao, String cor, String tipoCombustivel, String transmissao, String cpfUsuario) {
         this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
@@ -36,14 +20,7 @@ public class Carro {
         this.cor = cor;
         this.tipoCombustivel = tipoCombustivel;
         this.transmissao = transmissao;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.cpfUsuario = cpfUsuario;
     }
 
     public String getPlaca() {
@@ -102,11 +79,11 @@ public class Carro {
         this.transmissao = transmissao;
     }
 
-    public Usuario getUsuario(){
-        return usuario;
+    public String getCpfUsuario() {
+        return cpfUsuario;
     }
 
-    public void setUsuario(Usuario usuario){
-        this.usuario = usuario;
+    public void setCpfUsuario(String nomeUsuario) {
+        this.cpfUsuario = nomeUsuario;
     }
 }

@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface CarroRepository extends JpaRepository<Carro, Long> {
-
+    List<Carro> findByUsuarioId(Long usuarioId);
 }

@@ -1,5 +1,7 @@
 package dev.java.SistemaCarros.controller;
 
+import dev.java.SistemaCarros.dto.CarroRequestDTO;
+import dev.java.SistemaCarros.dto.CarroResponseDTO;
 import dev.java.SistemaCarros.model.Carro;
 import dev.java.SistemaCarros.service.CarroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,39 +12,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/carro")
+@RequestMapping("/usuarios/{usuarioId}/carros")
 public class CarroController {
     @Autowired
     CarroService carroService;
 
-    @GetMapping("/listarTodos")
-    public ResponseEntity<List> listarTodos(){
-        List<Carro> carros = carroService.buscarTodosCarros();
+    @GetMapping
+    public ResponseEntity<List<CarroResponseDTO>> listarTodos(@PathVariable Long usuarioId){
+        List<CarroResponseDTO> carros = carroService.buscarTodosCarrosPorUsuario(usuarioId);
         return new ResponseEntity<>(carros, HttpStatus.OK);
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Carro> listarCarroPorId(@PathVariable Long id){
-        Carro carro = carroService.buscarPorId(id);
+    @GetMapping("/{carroId}")
+    public ResponseEntity<CarroResponseDTO>  buscarPorId(@PathVariable Long usuarioId, @PathVariable Long carroId){
+        CarroResponseDTO carro = carroService.buscarPorId(usuarioId, carroId);
         return new ResponseEntity<>(carro, HttpStatus.OK);
     }
 
-    @PostMapping("/criar")
-    public ResponseEntity<Carro> criarCarro(@RequestBody Carro carro){
-        Carro novoCarro = carroService.criarCarro(carro);
+    @PostMapping
+    public ResponseEntity<CarroResponseDTO> criarCarro(@PathVariable Long usuarioId, @RequestBody CarroRequestDTO carroRequest){
+        CarroResponseDTO novoCarro = carroService.criarCarro(usuarioId, carroRequest);
         return new ResponseEntity<>(novoCarro, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletarCarro(@PathVariable Long id){
-        carroService.deletarCarro(id);
+    @DeleteMapping("/{carroId}")
+    public ResponseEntity<Void> deletarCarro(@PathVariable Long usuarioId, @PathVariable Long carroId){
+        carroService.deletarCarro(usuarioId, carroId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @RequestBody Carro carroRequest){
-        carroService.atualizarCarro(id, carroRequest);
-        Carro carro = carroService.buscarPorId(id);
+    @PutMapping("/{carroId}")
+    public ResponseEntity<CarroResponseDTO> atualizarCarro(@PathVariable Long usuarioId, @PathVariable Long carroId, @RequestBody CarroRequestDTO carroRequest){
+        carroService.atualizarCarro(usuarioId, carroId, carroRequest);
+        CarroResponseDTO carro = carroService.buscarPorId(usuarioId, carroId);
         return new ResponseEntity<>(carro, HttpStatus.OK);
     }
 }

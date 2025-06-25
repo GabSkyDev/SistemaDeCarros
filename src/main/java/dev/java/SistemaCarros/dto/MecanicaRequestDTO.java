@@ -1,36 +1,26 @@
-package dev.java.SistemaCarros.model;
+package dev.java.SistemaCarros.dto;
 
-import jakarta.persistence.*;
+import dev.java.SistemaCarros.model.HorarioFuncionamento;
+import dev.java.SistemaCarros.model.Servico;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "mecanica")
-public class Mecanica {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MecanicaRequestDTO {
     private Long id;
     private String cnpj;
     private String nome;
     private String endereco;
     private String email;
     private String telefone;
-
-    @ElementCollection
-    @CollectionTable(name = "mecanica_especialidades", joinColumns = @JoinColumn(name = "mecanica_id"))
     private List<String> especialidades;
-
-    @ElementCollection
-    @CollectionTable(name = "mecanica_horarios", joinColumns = @JoinColumn(name = "mecanica_id"))
     private List<HorarioFuncionamento> horarios;
+    private List<Servico> servicos;
 
-    @OneToMany(mappedBy = "mecanica", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Servico> servicos = new ArrayList<>();
+    public MecanicaRequestDTO(){
 
-    public Mecanica() {}
+    }
 
-    public Mecanica(Long id, String cnpj, String nome, String endereco, String email, String telefone, List<String> especialidades, List<HorarioFuncionamento> horarios, List<Servico> servicos) {
+    public MecanicaRequestDTO(Long id, String cnpj, String nome, String endereco, String email, String telefone, List<String> especialidades, List<HorarioFuncionamento> horarios, List<Servico> servicos) {
         this.id = id;
         this.cnpj = cnpj;
         this.nome = nome;
@@ -114,4 +104,3 @@ public class Mecanica {
         this.servicos = servicos;
     }
 }
-

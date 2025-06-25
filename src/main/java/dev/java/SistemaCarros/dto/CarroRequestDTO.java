@@ -1,13 +1,8 @@
-package dev.java.SistemaCarros.model;
+package dev.java.SistemaCarros.dto;
 
-import jakarta.persistence.*;
-import java.util.List;
+import dev.java.SistemaCarros.model.Usuario;
 
-@Entity
-@Table(name = "carro")
-public class Carro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CarroRequestDTO {
     private Long id;
     private String placa;
     private String modelo;
@@ -16,18 +11,12 @@ public class Carro {
     private String cor;
     private String tipoCombustivel;
     private String transmissao;
-
-    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
-    private List<Servico> servicos;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-    public Carro() {
+    private String cpfUsuario;
+    public CarroRequestDTO() {
 
     }
 
-    public Carro(Long id, String placa, String modelo, String marca, Integer anoFabricacao, String cor, String tipoCombustivel, String transmissao) {
+    public CarroRequestDTO(Long id, String placa, String modelo, String marca, Integer anoFabricacao, String cor, String tipoCombustivel, String transmissao, String cpfUsuario) {
         this.id = id;
         this.placa = placa;
         this.modelo = modelo;
@@ -36,6 +25,7 @@ public class Carro {
         this.cor = cor;
         this.tipoCombustivel = tipoCombustivel;
         this.transmissao = transmissao;
+        this.cpfUsuario = cpfUsuario;
     }
 
     public Long getId() {
@@ -102,11 +92,11 @@ public class Carro {
         this.transmissao = transmissao;
     }
 
-    public Usuario getUsuario(){
-        return usuario;
+    public String getCpfUsuario() {
+        return cpfUsuario;
     }
 
-    public void setUsuario(Usuario usuario){
-        this.usuario = usuario;
+    public void setCpfUsuario(String cpfUsuario) {
+        this.cpfUsuario = cpfUsuario;
     }
 }
