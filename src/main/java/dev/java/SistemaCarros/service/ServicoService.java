@@ -2,6 +2,7 @@ package dev.java.SistemaCarros.service;
 
 import dev.java.SistemaCarros.dto.ServicoRequestDTO;
 import dev.java.SistemaCarros.dto.ServicoResponseDTO;
+import dev.java.SistemaCarros.mapper.ServicoMapper;
 import dev.java.SistemaCarros.model.Carro;
 import dev.java.SistemaCarros.model.Mecanica;
 import dev.java.SistemaCarros.model.Servico;
@@ -18,23 +19,25 @@ public class ServicoService {
     private final ServicoRepository servicoRepository;
     private final MecanicaRepository mecanicaRepository;
     private final CarroRepository carroRepository;
+    private ServicoMapper servicoMapper;
     @Autowired
-    public ServicoService(ServicoRepository servicoRepository, MecanicaRepository mecanicaRepository, CarroRepository carroRepository) {
+    public ServicoService(ServicoRepository servicoRepository, MecanicaRepository mecanicaRepository, CarroRepository carroRepository, ServicoMapper servicoMapper) {
         this.servicoRepository = servicoRepository;
         this.mecanicaRepository = mecanicaRepository;
         this.carroRepository = carroRepository;
+        this.servicoMapper = servicoMapper;
     }
 
     public List<ServicoResponseDTO> listarServicos() {
         return servicoRepository.findAll().stream()
-                .map(this::servicoParaDTO)
+                .map(ServicoMapper::toResponseDTO)
                 .toList();
     }
 
     public ServicoResponseDTO buscarPorId(Long id) {
         Servico servico = servicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
-        return servicoParaDTO(servico);
+        return servicoMapper.toResponseDTO(servico);
     }
 
     public ServicoResponseDTO criarServico(ServicoRequestDTO servicoDTO) {
@@ -55,7 +58,7 @@ public class ServicoService {
         servico.setCarro(carro);
         servicoRepository.save(servico);
 
-        return servicoParaDTO(servico);
+        return servicoMapper.toResponseDTO(servico);
     }
 
     public void deletarServico(Long id) {
@@ -85,24 +88,7 @@ public class ServicoService {
         servico.setMecanica(mecanica);
         servico.setCarro(carro);
 
-        return servicoParaDTO(servicoRepository.save(servico));
-    }
-
-
-
-    private ServicoResponseDTO servicoParaDTO(Servico servico) {
-        ServicoResponseDTO dto = new ServicoResponseDTO();
-        dto.setDescricao(servico.getDescricao());
-        dto.setDataServico(servico.getDataServico());
-        dto.setValorPago(servico.getValorPago());
-        dto.setMecanicaId(servico.getMecanica().getId());
-        dto.setMecanicaNome(servico.getMecanica().getNome());
-        if (servico.getCarro() != null) {
-            dto.setCarroId(servico.getCarro().getId());
-            dto.setPlacaCarro(servico.getCarro().getPlaca());
-            dto.setModeloCarro(servico.getCarro().getModelo());
-        }
-        return dto;
+        return servicoMapper.toResponseDTO(servicoRepository.save(servico));
     }
 
 }

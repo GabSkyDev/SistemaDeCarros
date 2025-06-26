@@ -2,6 +2,7 @@ package dev.java.SistemaCarros.service;
 
 import dev.java.SistemaCarros.dto.CarroRequestDTO;
 import dev.java.SistemaCarros.dto.CarroResponseDTO;
+import dev.java.SistemaCarros.mapper.CarroMapper;
 import dev.java.SistemaCarros.model.Carro;
 import dev.java.SistemaCarros.model.Usuario;
 import dev.java.SistemaCarros.repository.CarroRepository;
@@ -15,11 +16,12 @@ public class CarroService {
 
     private final CarroRepository carroRepository;
     private final UsuarioRepository usuarioRepository;
-
+    private CarroMapper carroMapper;
     @Autowired
-    public CarroService(CarroRepository carroRepository, UsuarioRepository usuarioRepository){
+    public CarroService(CarroRepository carroRepository, UsuarioRepository usuarioRepository, CarroMapper carroMapper){
         this.carroRepository = carroRepository;
         this.usuarioRepository = usuarioRepository;
+        this.carroMapper = carroMapper;
     }
 
     public List<CarroResponseDTO> buscarTodosCarrosPorUsuario(Long usuarioId){
@@ -27,7 +29,7 @@ public class CarroService {
 
         return carros
                 .stream()
-                .map(this::carroParaResponseDTO)
+                .map(CarroMapper::toResponseDTO)
                 .toList();
     }
 
@@ -36,18 +38,18 @@ public class CarroService {
                 .filter(c -> c.getUsuario().getId().equals(id))
                 .orElseThrow(() ->  new RuntimeException("Carro não encontrado!"));
 
-        return carroParaResponseDTO(carro);
+        return carroMapper.toResponseDTO(carro);
     }
 
     public CarroResponseDTO criarCarro(Long id, CarroRequestDTO carroDTO){
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Carro carro = requestCarroParaEntidade(carroDTO);
+        Carro carro = carroMapper.toEntidade(carroDTO);
         carro.setUsuario(usuario);
 
         Carro carroSalvo = carroRepository.save(carro);
-        return carroParaResponseDTO(carroSalvo);
+        return carroMapper.toResponseDTO(carroSalvo);
     }
 
     public void deletarCarro(Long id, Long carroId){
@@ -72,38 +74,6 @@ public class CarroService {
         carro.setTransmissao(carroRequest.getTransmissao());
 
         Carro carroAtualizado = carroRepository.save(carro);
-        return carroParaResponseDTO(carroAtualizado);
-    }
-
-    public CarroResponseDTO carroParaResponseDTO(Carro carro){
-        if (carro.getUsuario() == null) {
-            throw new RuntimeException("Carro sem usuário vinculado.");
-        }
-
-        return new CarroResponseDTO(
-                carro.getPlaca(),
-                carro.getModelo(),
-                carro.getMarca(),
-                carro.getAnoFabricacao(),
-                carro.getCor(),
-                carro.getTipoCombustivel(),
-                carro.getTransmissao(),
-                carro.getUsuario().getCpf()
-        );
-    }
-
-    public Carro requestCarroParaEntidade(CarroRequestDTO carroDTO){
-        Carro carro = new Carro();
-
-        carro.setId(carroDTO.getId());
-        carro.setPlaca(carroDTO.getPlaca());
-        carro.setModelo(carroDTO.getModelo());
-        carro.setMarca(carroDTO.getMarca());
-        carro.setCor(carroDTO.getCor());
-        carro.setAnoFabricacao(carroDTO.getAnoFabricacao());
-        carro.setTipoCombustivel(carroDTO.getTipoCombustivel());
-        carro.setTransmissao(carroDTO.getTransmissao());
-
-        return carro;
+        return carroMapper.toResponseDTO(carroAtualizado);
     }
 }

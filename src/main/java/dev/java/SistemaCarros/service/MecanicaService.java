@@ -2,6 +2,7 @@ package dev.java.SistemaCarros.service;
 
 import dev.java.SistemaCarros.dto.MecanicaRequestDTO;
 import dev.java.SistemaCarros.dto.MecanicaResponseDTO;
+import dev.java.SistemaCarros.mapper.MecanicaMapper;
 import dev.java.SistemaCarros.model.Mecanica;
 import dev.java.SistemaCarros.model.Servico;
 import dev.java.SistemaCarros.repository.MecanicaRepository;
@@ -14,10 +15,12 @@ import java.util.List;
 public class MecanicaService {
 
     private MecanicaRepository mecanicaRepository;
+    private MecanicaMapper mecanicaMapper;
 
     @Autowired
-    public MecanicaService(MecanicaRepository mecanicaRepository){
+    public MecanicaService(MecanicaRepository mecanicaRepository, MecanicaMapper mecanicaMapper){
         this.mecanicaRepository = mecanicaRepository;
+        this.mecanicaMapper = mecanicaMapper;
     }
 
     public List<MecanicaResponseDTO> buscarTodasMecanicas(){
@@ -25,7 +28,7 @@ public class MecanicaService {
 
         return mecanica
                 .stream()
-                .map(this::mecanicaParaResponseDTO)
+                .map(MecanicaMapper::toResponseDTO)
                 .toList();
     }
 
@@ -33,17 +36,17 @@ public class MecanicaService {
         Mecanica mecanica = mecanicaRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));
 
-        return mecanicaParaResponseDTO(mecanica);
+        return mecanicaMapper.toResponseDTO(mecanica);
 
     }
 
     public MecanicaResponseDTO criarMecanica(MecanicaRequestDTO mecanicaDTO) {
-        Mecanica mecanica = requestMecanicaParaEntidade(mecanicaDTO);
+        Mecanica mecanica = mecanicaMapper.toEntidade(mecanicaDTO);
 
         mecanica.getServicos().forEach(servico -> servico.setMecanica(mecanica));
 
         Mecanica mecanicaSalva = mecanicaRepository.save(mecanica);
-        return mecanicaParaResponseDTO(mecanicaSalva);
+        return mecanicaMapper.toResponseDTO(mecanicaSalva);
     }
 
     public void deletarMecanicaPorId(Long id){
@@ -79,45 +82,6 @@ public class MecanicaService {
 
         Mecanica mecanicaAtualizada = mecanicaRepository.save(mecanica);
 
-        return mecanicaParaResponseDTO(mecanicaAtualizada);
-    }
-
-    public MecanicaResponseDTO mecanicaParaResponseDTO(Mecanica mecanica){
-        return new MecanicaResponseDTO(
-                mecanica.getCnpj(),
-                mecanica.getNome(),
-                mecanica.getEndereco(),
-                mecanica.getEmail(),
-                mecanica.getTelefone(),
-                mecanica.getEspecialidades(),
-                mecanica.getHorarios()
-        );
-    }
-
-    private Mecanica requestMecanicaParaEntidade(MecanicaRequestDTO mecanicaDTO){
-        Mecanica mecanica = new Mecanica();
-
-        mecanica.setId(mecanicaDTO.getId());
-        mecanica.setCnpj(mecanicaDTO.getCnpj());
-        mecanica.setNome(mecanicaDTO.getNome());
-        mecanica.setEndereco(mecanicaDTO.getEndereco());
-        mecanica.setEmail(mecanicaDTO.getEmail());
-        mecanica.setEspecialidades(mecanicaDTO.getEspecialidades());
-        mecanica.setHorarios(mecanicaDTO.getHorarios());
-
-        List<Servico> servicos = mecanicaDTO.getServicos().stream().map(mecDTO -> {
-            Servico servico = new Servico();
-            servico.setId(mecDTO.getId());
-            servico.setDataServico(mecDTO.getDataServico());
-            servico.setCarro(mecDTO.getCarro());
-            servico.setValorPago(mecDTO.getValorPago());
-            servico.setDescricao(mecDTO.getDescricao());
-            servico.setMecanica(mecanica);
-            return servico;
-        }).toList();
-
-        mecanica.setServicos(servicos);
-
-        return mecanica;
+        return mecanicaMapper.toResponseDTO(mecanicaAtualizada);
     }
 }

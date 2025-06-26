@@ -1,11 +1,15 @@
  package dev.java.SistemaCarros.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "usuario")
 public class Usuario {
     @Id
@@ -27,54 +31,6 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.carrosRegistrados = carrosRegistrados;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public List<Carro> getCarrosRegistrados() {
-        return carrosRegistrados;
-    }
-
-    public void setCarrosRegistrados(List<Carro> carrosRegistrados) {
         this.carrosRegistrados = carrosRegistrados;
     }
 }
