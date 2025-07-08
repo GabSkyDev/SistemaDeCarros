@@ -12,7 +12,7 @@
 
 
 ## Objetivo do Projeto
-Este projeto tem como objetivo desenvolver uma **API RESTful** robusta e eficiente para o gerenciamento de serviços automotivos, atendendo tanto às oficinas mecânicas quanto aos seus clientes.
+Este projeto tem como objetivo desenvolver uma **API REST** robusta e eficiente para o gerenciamento de serviços automotivos, atendendo tanto às oficinas mecânicas quanto aos seus clientes.
 
 🔧 **Para oficinas:**
 - Gerenciar serviços realizados.
