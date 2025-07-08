@@ -11,8 +11,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ObjetoNaoEncontradoException.class)
-    public ResponseEntity<Object> recursoNaoEncontrado(ObjetoNaoEncontradoException ex){
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<Object> recursoNaoEncontrado(ObjectNotFoundException ex){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", OffsetDateTime.now());
         body.put("status", HttpStatus.NOT_FOUND.value());
@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ErroInternoException.class)
-    public ResponseEntity<Object> ErroInterno(ErroInternoException ex){
+    @ExceptionHandler(InternalErrorException.class)
+    public ResponseEntity<Object> erroInterno(InternalErrorException ex){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", OffsetDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Object> ErroInterno(BadRequestException ex){
+    public ResponseEntity<Object> badRequest(BadRequestException ex){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", OffsetDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
@@ -41,8 +41,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MetodoNaoSuportado.class)
-    public ResponseEntity<Object> ErroInterno(MetodoNaoSuportado ex){
+    @ExceptionHandler(NotSupportedException.class)
+    public ResponseEntity<Object> naoSuportado(NotSupportedException ex){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", OffsetDateTime.now());
         body.put("status", HttpStatus.METHOD_NOT_ALLOWED.value());

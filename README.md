@@ -37,7 +37,7 @@ Este projeto tem como objetivo desenvolver uma **API RESTful** robusta e eficien
 -  Cadastro de usuários com:
     - Nome, CPF, Email, Telefone
     - Acesso ao acervo de oficinas
-    - Histório de serviços realizados no carro
+    - Histório de serviços realizados no car
     - Sistema de avaliação
 
 ### Carros
