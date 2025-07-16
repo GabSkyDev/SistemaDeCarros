@@ -64,6 +64,24 @@ Este projeto tem como objetivo desenvolver uma **API REST** robusta e eficiente 
 
 ## 💡 Como rodar o projeto localmente
 
+### Configuração do banco de dados
+**Atenção!** Para executar este projeto localmente, é necessário ter um **banco de dados MySQL** configurado e em execução na sua máquina.
+
+1. **Crie um banco de dados no MySQL:**
+
+```sql
+CREATE DATABASE sistema_carros;
+```
+
+2. **Atualize o arquivo ```application.properties```:**
+
+```bash
+# Configuração do banco de dados
+spring.datasource.url=jdbc:mysql://localhost:3306/sistema_carros
+```
+
+### Clone o repositório e execute o projeto
+
 ```bash
 # Clone este repositório
 git clone https://github.com/GabSkyDev/SistemaDeCarros.git
@@ -71,7 +89,5 @@ git clone https://github.com/GabSkyDev/SistemaDeCarros.git
 # Acesse a pasta do projeto
 cd SistemaDeCarros
 
-# Configure seu application.properties com os dados do seu banco MySQL
-
-# Execute a aplicação
+# Execute a aplicação com o banco de dados MySQL em execução
 ./mvnw spring-boot:run
