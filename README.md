@@ -1,5 +1,13 @@
 # Sistema de Gerenciamento de Serviços Automotivos
 
+![Java](https://img.shields.io/badge/Java-17-blue.svg)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.3-brightgreen.svg)
+![Maven](https://img.shields.io/badge/Maven-3.9.6-C71A36.svg)
+![JPA](https://img.shields.io/badge/JPA-Hibernate-orange.svg)
+![Lombok](https://img.shields.io/badge/Lombok-%E2%9C%94-green.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
+
+
 ## Status do Projeto
 **Em desenvolvimento...**
 
