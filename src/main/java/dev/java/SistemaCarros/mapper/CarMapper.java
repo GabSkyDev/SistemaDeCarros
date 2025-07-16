@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CarMapper {
-    public static CarResponseDTO toResponseDTO(Car car){
+    public CarResponseDTO toResponseDTO(Car car){
         if (car.getClient() == null) {
             throw new RuntimeException("Carro sem usuário vinculado.");
         }
@@ -24,7 +24,7 @@ public class CarMapper {
         );
     }
 
-    public static Car toEntidade(CarRequestDTO carroDTO){
+    public Car toEntity(CarRequestDTO carroDTO){
         Car car = new Car();
 
         car.setId(carroDTO.getId());

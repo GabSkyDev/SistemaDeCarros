@@ -16,37 +16,37 @@ import java.util.List;
 
 @Service
 public class TaskService {
-    private final TaskRepository servicoRepository;
-    private final MechanicalRepository mecanicaRepository;
-    private final CarRepository carroRepository;
-    private TaskMapper servicoMapper;
+    private final TaskRepository taskRepository;
+    private final MechanicalRepository mechanicalRepository;
+    private final CarRepository carRepository;
+    private TaskMapper taskMapper;
     @Autowired
-    public TaskService(TaskRepository servicoRepository, MechanicalRepository mecanicaRepository, CarRepository carroRepository, TaskMapper servicoMapper) {
-        this.servicoRepository = servicoRepository;
-        this.mecanicaRepository = mecanicaRepository;
-        this.carroRepository = carroRepository;
-        this.servicoMapper = servicoMapper;
+    public TaskService(TaskRepository taskRepository, MechanicalRepository mechanicalRepository, CarRepository carRepository, TaskMapper taskMapper) {
+        this.taskRepository = taskRepository;
+        this.mechanicalRepository = mechanicalRepository;
+        this.carRepository = carRepository;
+        this.taskMapper = taskMapper;
     }
 
     public List<TaskResponseDTO> listarServicos() {
-        return servicoRepository.findAll().stream()
-                .map(TaskMapper::toResponseDTO)
+        return taskRepository.findAll().stream()
+                .map(taskMapper::toResponseDTO)
                 .toList();
     }
 
     public TaskResponseDTO buscarPorId(Long id) {
-        Task servico = servicoRepository.findById(id)
+        Task servico = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
-        return servicoMapper.toResponseDTO(servico);
+        return taskMapper.toResponseDTO(servico);
     }
 
     public TaskResponseDTO criarServico(TaskRequestDTO servicoDTO) {
-        Mechanical mecanica = mecanicaRepository.findById(servicoDTO.getMecanicaId())
+        Mechanical mecanica = mechanicalRepository.findById(servicoDTO.getMecanicaId())
                 .orElseThrow(() -> new RuntimeException("Mecânica não encontrada"));
 
         Car car = null;
         if (servicoDTO.getCarroId() != null) {
-            car = carroRepository.findById(servicoDTO.getCarroId())
+            car = carRepository.findById(servicoDTO.getCarroId())
                     .orElseThrow(() -> new RuntimeException("Carro não encontrado"));
         }
 
@@ -56,29 +56,29 @@ public class TaskService {
         servico.setValorPago(servicoDTO.getValorPago());
         servico.setMechanical(mecanica);
         servico.setCar(car);
-        servicoRepository.save(servico);
+        taskRepository.save(servico);
 
-        return servicoMapper.toResponseDTO(servico);
+        return taskMapper.toResponseDTO(servico);
     }
 
     public void deletarServico(Long id) {
-        if (!servicoRepository.existsById(id)) {
+        if (!taskRepository.existsById(id)) {
             throw new RuntimeException("Serviço não encontrado");
         }
-        servicoRepository.deleteById(id);
+        taskRepository.deleteById(id);
     }
 
 
     public TaskResponseDTO atualizarServico(Long id, TaskRequestDTO dto) {
-        Task servico = servicoRepository.findById(id)
+        Task servico = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
 
-        Mechanical mecanica = mecanicaRepository.findById(dto.getMecanicaId())
+        Mechanical mecanica = mechanicalRepository.findById(dto.getMecanicaId())
                 .orElseThrow(() -> new RuntimeException("Mecânica não encontrada"));
 
         Car car = null;
         if (dto.getCarroId() != null) {
-            car = carroRepository.findById(dto.getCarroId())
+            car = carRepository.findById(dto.getCarroId())
                     .orElseThrow(() -> new RuntimeException("Carro não encontrado"));
         }
 
@@ -88,7 +88,7 @@ public class TaskService {
         servico.setMechanical(mecanica);
         servico.setCar(car);
 
-        return servicoMapper.toResponseDTO(servicoRepository.save(servico));
+        return taskMapper.toResponseDTO(taskRepository.save(servico));
     }
 
 }

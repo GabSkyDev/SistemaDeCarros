@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class MechanicalMapper {
 
-    public static MechanicalResponseDTO toResponseDTO(Mechanical mecanica){
+    public MechanicalResponseDTO toResponseDTO(Mechanical mecanica){
         return new MechanicalResponseDTO(
                 mecanica.getCnpj(),
                 mecanica.getNome(),
@@ -23,7 +23,7 @@ public class MechanicalMapper {
         );
     }
 
-    public static Mechanical toEntidade(MechanicalRequestDTO mecanicaDTO){
+    public Mechanical toEntity(MechanicalRequestDTO mecanicaDTO){
         Mechanical mecanica = new Mechanical();
 
         mecanica.setId(mecanicaDTO.getId());

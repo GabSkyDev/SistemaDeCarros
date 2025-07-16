@@ -40,7 +40,7 @@ public class ClientController {
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ClientResponseDTO> criarUsuario(@RequestBody ClientRequestDTO usuario){
         ClientResponseDTO novoUsuario = usuarioService.criarUsuario(usuario);
         return new ResponseEntity<>(novoUsuario, HttpStatus.OK);

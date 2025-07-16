@@ -14,60 +14,60 @@ import java.util.List;
 @Service
 public class ClientService {
 
-    private ClientRepository usuarioRepository;
-    private ClientMapper usuarioMapper;
+    private ClientRepository clientRepository;
+    private ClientMapper clientMapper;
 
     @Autowired
-    public ClientService(ClientRepository usuarioRepository, ClientMapper usuarioMapper){
-        this.usuarioRepository = usuarioRepository;
-        this.usuarioMapper = usuarioMapper;
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper){
+        this.clientRepository = clientRepository;
+        this.clientMapper = clientMapper;
     }
 
     public List<ClientRequestDTO> buscarTodosUsuarios(){
-        List<Client> clients = usuarioRepository.findAll();
+        List<Client> clients = clientRepository.findAll();
         return clients
                 .stream()
-                .map(ClientMapper::toRequestDTO)
+                .map(clientMapper::toRequestDTO)
                 .toList();
     }
 
     public ClientWithCarsDTO buscarUsuarioComCarro(Long id){
-        Client client = usuarioRepository.findById(id)
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Usuário não encontrado!"));
-        return usuarioMapper.toUsuarioComCarrosDTO(client);
+        return clientMapper.toClientWithCarsDTO(client);
     }
 
     public List<ClientWithCarsDTO> buscarTodosUsuariosComCarro(){
-        List<Client> clients = usuarioRepository.findAll();
+        List<Client> clients = clientRepository.findAll();
         return clients
                 .stream()
-                .map(ClientMapper::toUsuarioComCarrosDTO)
+                .map(clientMapper::toClientWithCarsDTO)
                 .toList();
 
     }
     public ClientResponseDTO buscarPorId(Long id){
-        Client client = usuarioRepository.findById(id)
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Usuário não encontrado!"));
 
-        return usuarioMapper.toResponseDTO(client);
+        return clientMapper.toResponseDTO(client);
     }
     public ClientResponseDTO criarUsuario(ClientRequestDTO usuarioDTO){
-        Client client = usuarioMapper.toEntidade(usuarioDTO);
+        Client client = clientMapper.toEntity(usuarioDTO);
 
         client.getCarrosRegistrados().forEach(carro -> carro.setClient(client));
 
-        Client clientSalvo = usuarioRepository.save(client);
-        return usuarioMapper.toResponseDTO(clientSalvo);
+        Client clientSalvo = clientRepository.save(client);
+        return clientMapper.toResponseDTO(clientSalvo);
     }
     public void deletarUsuarioPorId(Long id){
-        if (!usuarioRepository.existsById(id)) {
+        if (!clientRepository.existsById(id)) {
             throw new RuntimeException("Usuário não encontrado");
         }
-        usuarioRepository.deleteById(id);
+        clientRepository.deleteById(id);
     }
 
     public ClientResponseDTO atualizarUsuario(Long id, ClientRequestDTO usuarioRequest){
-        Client client = usuarioRepository.findById(id)
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         client.setNome(usuarioRequest.getNome());
@@ -92,8 +92,8 @@ public class ClientService {
 
         client.getCarrosRegistrados().addAll(cars);
 
-        Client clientAtualizado = usuarioRepository.save(client);
+        Client clientAtualizado = clientRepository.save(client);
 
-        return usuarioMapper.toResponseDTO(clientAtualizado);
+        return clientMapper.toResponseDTO(clientAtualizado);
     }
 }

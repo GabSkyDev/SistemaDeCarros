@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TaskMapper {
-    public static TaskResponseDTO toResponseDTO(Task servico){
+    public TaskResponseDTO toResponseDTO(Task servico){
         TaskResponseDTO dto = new TaskResponseDTO();
         dto.setDescricao(servico.getDescricao());
         dto.setDataServico(servico.getDataServico());

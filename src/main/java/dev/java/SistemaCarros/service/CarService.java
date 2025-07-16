@@ -14,54 +14,54 @@ import java.util.List;
 @Service
 public class CarService {
 
-    private final CarRepository carroRepository;
-    private final ClientRepository usuarioRepository;
-    private CarMapper carroMapper;
+    private final CarRepository carRepository;
+    private final ClientRepository clientRepository;
+    private CarMapper carMapper;
     @Autowired
-    public CarService(CarRepository carroRepository, ClientRepository usuarioRepository, CarMapper carroMapper){
-        this.carroRepository = carroRepository;
-        this.usuarioRepository = usuarioRepository;
-        this.carroMapper = carroMapper;
+    public CarService(CarRepository carRepository, ClientRepository clientRepository, CarMapper carMapper){
+        this.carRepository = carRepository;
+        this.clientRepository = clientRepository;
+        this.carMapper = carMapper;
     }
 
     public List<CarResponseDTO> buscarTodosCarrosPorUsuario(Long usuarioId){
-        List<Car> cars = carroRepository.findByClientId(usuarioId);
+        List<Car> cars = carRepository.findByClientId(usuarioId);
 
         return cars
                 .stream()
-                .map(CarMapper::toResponseDTO)
+                .map(carMapper::toResponseDTO)
                 .toList();
     }
 
     public CarResponseDTO buscarPorId(Long id, Long carroId){
-        Car car = carroRepository.findById(carroId)
+        Car car = carRepository.findById(carroId)
                 .filter(c -> c.getClient().getId().equals(id))
                 .orElseThrow(() ->  new RuntimeException("Carro não encontrado!"));
 
-        return carroMapper.toResponseDTO(car);
+        return carMapper.toResponseDTO(car);
     }
 
     public CarResponseDTO criarCarro(Long id, CarRequestDTO carroDTO){
-        Client client = usuarioRepository.findById(id)
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Car car = carroMapper.toEntidade(carroDTO);
+        Car car = carMapper.toEntity(carroDTO);
         car.setClient(client);
 
-        Car carSalvo = carroRepository.save(car);
-        return carroMapper.toResponseDTO(carSalvo);
+        Car carSalvo = carRepository.save(car);
+        return carMapper.toResponseDTO(carSalvo);
     }
 
     public void deletarCarro(Long id, Long carroId){
-        Car car = carroRepository.findById(carroId)
+        Car car = carRepository.findById(carroId)
                 .filter(c -> c.getClient().getId().equals(id))
                 .orElseThrow(() -> new RuntimeException("Carro não encontrado para este usuário"));
 
-        carroRepository.delete(car);
+        carRepository.delete(car);
     }
 
     public CarResponseDTO atualizarCarro(Long id, Long carroId, CarRequestDTO carroRequest){
-        Car car = carroRepository.findById(carroId)
+        Car car = carRepository.findById(carroId)
                 .filter(c -> c.getClient().getId().equals(id))
                 .orElseThrow(() ->  new RuntimeException("Carro não encontrado para este usuário"));
 
@@ -73,7 +73,7 @@ public class CarService {
         car.setTipoCombustivel(carroRequest.getTipoCombustivel());
         car.setTransmissao(carroRequest.getTransmissao());
 
-        Car carAtualizado = carroRepository.save(car);
-        return carroMapper.toResponseDTO(carAtualizado);
+        Car carAtualizado = carRepository.save(car);
+        return carMapper.toResponseDTO(carAtualizado);
     }
 }

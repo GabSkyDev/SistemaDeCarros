@@ -14,49 +14,49 @@ import java.util.List;
 @Service
 public class MechanicalService {
 
-    private MechanicalRepository mecanicaRepository;
-    private MechanicalMapper mecanicaMapper;
+    private MechanicalRepository mechanicalRepository;
+    private MechanicalMapper mechanicalMapper;
 
     @Autowired
-    public MechanicalService(MechanicalRepository mecanicaRepository, MechanicalMapper mecanicaMapper){
-        this.mecanicaRepository = mecanicaRepository;
-        this.mecanicaMapper = mecanicaMapper;
+    public MechanicalService(MechanicalRepository mechanicalRepository, MechanicalMapper mechanicalMapper){
+        this.mechanicalRepository = mechanicalRepository;
+        this.mechanicalMapper = mechanicalMapper;
     }
 
     public List<MechanicalResponseDTO> buscarTodasMecanicas(){
-        List<Mechanical> mecanica = mecanicaRepository.findAll();
+        List<Mechanical> mecanica = mechanicalRepository.findAll();
 
         return mecanica
                 .stream()
-                .map(MechanicalMapper::toResponseDTO)
+                .map(mechanicalMapper::toResponseDTO)
                 .toList();
     }
 
     public MechanicalResponseDTO buscarPorId(Long id){
-        Mechanical mecanica = mecanicaRepository.findById(id)
+        Mechanical mecanica = mechanicalRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));
 
-        return mecanicaMapper.toResponseDTO(mecanica);
+        return mechanicalMapper.toResponseDTO(mecanica);
 
     }
 
     public MechanicalResponseDTO criarMecanica(MechanicalRequestDTO mecanicaDTO) {
-        Mechanical mecanica = mecanicaMapper.toEntidade(mecanicaDTO);
+        Mechanical mecanica = mechanicalMapper.toEntity(mecanicaDTO);
 
         mecanica.getServicos().forEach(servico -> servico.setMechanical(mecanica));
 
-        Mechanical mecanicaSalva = mecanicaRepository.save(mecanica);
-        return mecanicaMapper.toResponseDTO(mecanicaSalva);
+        Mechanical mecanicaSalva = mechanicalRepository.save(mecanica);
+        return mechanicalMapper.toResponseDTO(mecanicaSalva);
     }
 
     public void deletarMecanicaPorId(Long id){
-        if (!mecanicaRepository.existsById(id)) {
+        if (!mechanicalRepository.existsById(id)) {
             throw new RuntimeException("Mecânica não encontrada");
         }
-        mecanicaRepository.deleteById(id);
+        mechanicalRepository.deleteById(id);
     }
     public MechanicalResponseDTO atualizarMecanica(Long id, MechanicalRequestDTO mecanicaRequest){
-        Mechanical mecanica = mecanicaRepository.findById(id)
+        Mechanical mecanica = mechanicalRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));;
 
         mecanica.setNome(mecanicaRequest.getNome());
@@ -80,8 +80,8 @@ public class MechanicalService {
 
         mecanica.getServicos().addAll(servicos);
 
-        Mechanical mecanicaAtualizada = mecanicaRepository.save(mecanica);
+        Mechanical mecanicaAtualizada = mechanicalRepository.save(mecanica);
 
-        return mecanicaMapper.toResponseDTO(mecanicaAtualizada);
+        return mechanicalMapper.toResponseDTO(mecanicaAtualizada);
     }
 }

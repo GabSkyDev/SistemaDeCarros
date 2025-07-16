@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class ClientMapper {
-    public static ClientResponseDTO toResponseDTO(Client client){
+    public ClientResponseDTO toResponseDTO(Client client){
         return new ClientResponseDTO(
                 client.getCpf(),
                 client.getNome(),
@@ -21,7 +21,7 @@ public class ClientMapper {
         );
     }
 
-    public static ClientRequestDTO toRequestDTO(Client client){
+    public ClientRequestDTO toRequestDTO(Client client){
         return new ClientRequestDTO(
                 client.getId(),
                 client.getCpf(),
@@ -31,7 +31,7 @@ public class ClientMapper {
         );
     }
 
-    public static ClientWithCarsDTO toUsuarioComCarrosDTO(Client client){
+    public ClientWithCarsDTO toClientWithCarsDTO(Client client){
         List<CarRequestDTO> carros = client.getCarrosRegistrados()
                 .stream()
                 .map(carro -> new CarRequestDTO(
@@ -57,7 +57,7 @@ public class ClientMapper {
         );
     }
 
-    public static Client toEntidade(ClientRequestDTO usuarioDTO){
+    public Client toEntity(ClientRequestDTO usuarioDTO){
         Client client = new Client();
 
         client.setId(usuarioDTO.getId());
