@@ -60,13 +60,13 @@ public class ClientMapper {
     public Client toEntity(ClientRequestDTO usuarioDTO){
         Client client = new Client();
 
-        client.setId(usuarioDTO.getId());
-        client.setCpf(usuarioDTO.getCpf());
-        client.setNome(usuarioDTO.getNome());
-        client.setEmail(usuarioDTO.getEmail());
-        client.setTelefone(usuarioDTO.getTelefone());
+        client.setId(usuarioDTO.id());
+        client.setCpf(usuarioDTO.cpf());
+        client.setNome(usuarioDTO.nome());
+        client.setEmail(usuarioDTO.email());
+        client.setTelefone(usuarioDTO.telefone());
 
-        List<Car> cars = usuarioDTO.getCarrosRegistrados().stream().map(carroDTO ->{
+        List<Car> cars = usuarioDTO.carrosRegistrados().stream().map(carroDTO ->{
             Car car = new Car();
             car.setPlaca(carroDTO.getPlaca());
             car.setModelo(carroDTO.getModelo());

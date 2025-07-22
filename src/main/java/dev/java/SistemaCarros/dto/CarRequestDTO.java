@@ -1,100 +1,39 @@
 package dev.java.SistemaCarros.dto;
 
-public class CarRequestDTO {
-    private Long id;
-    private String placa;
-    private String modelo;
-    private String marca;
-    private Integer anoFabricacao;
-    private String cor;
-    private String tipoCombustivel;
-    private String transmissao;
-    private String cpfUsuario;
-    public CarRequestDTO() {
+import java.time.Year;
+import java.util.Objects;
+
+public record CarRequestDTO (
+        Long id,
+        String placa,
+        String modelo,
+        String marca,
+        Integer anoFabricacao,
+        String cor,
+        String tipoCombustivel,
+        String transmissao,
+        String cpfUsuario){
+    public CarRequestDTO {
+        // Validação de nulidade
+        Objects.requireNonNull(placa, "Placa do veículo não pode ser nula.");
+        Objects.requireNonNull(modelo, "Modelo do veículo não pode ser nulo.");
+        Objects.requireNonNull(marca, "Marca do veículo não pode ser nula.");
+
+        // Validação de placa
+        if (!placa.matches("[A-Z]{3}-?\\d{4}")){
+            throw new IllegalArgumentException("Formato de placa inválido.");
+        }
+
+        // Validação de ano
+        if (anoFabricacao < 1886 || anoFabricacao > Year.now().getValue() + 1){
+            throw new IllegalArgumentException("Ano de veículo inválido.");
+        }
+
+        // Validação de CPF
+        if (!cpfUsuario.matches("\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}")){
+            throw new IllegalArgumentException("Formato de CPF inválido.");
+        }
 
     }
 
-    public CarRequestDTO(Long id, String placa, String modelo, String marca, Integer anoFabricacao, String cor, String tipoCombustivel, String transmissao, String cpfUsuario) {
-        this.id = id;
-        this.placa = placa;
-        this.modelo = modelo;
-        this.marca = marca;
-        this.anoFabricacao = anoFabricacao;
-        this.cor = cor;
-        this.tipoCombustivel = tipoCombustivel;
-        this.transmissao = transmissao;
-        this.cpfUsuario = cpfUsuario;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public Integer getAnoFabricacao() {
-        return anoFabricacao;
-    }
-
-    public void setAnoFabricacao(Integer anoFabricacao) {
-        this.anoFabricacao = anoFabricacao;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getTipoCombustivel() {
-        return tipoCombustivel;
-    }
-
-    public void setTipoCombustivel(String tipoCombustivel) {
-        this.tipoCombustivel = tipoCombustivel;
-    }
-
-    public String getTransmissao() {
-        return transmissao;
-    }
-
-    public void setTransmissao(String transmissao) {
-        this.transmissao = transmissao;
-    }
-
-    public String getCpfUsuario() {
-        return cpfUsuario;
-    }
-
-    public void setCpfUsuario(String cpfUsuario) {
-        this.cpfUsuario = cpfUsuario;
-    }
 }

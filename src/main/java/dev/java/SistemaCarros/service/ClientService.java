@@ -70,14 +70,14 @@ public class ClientService {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        client.setNome(usuarioRequest.getNome());
-        client.setCpf(usuarioRequest.getCpf());
-        client.setEmail(usuarioRequest.getEmail());
-        client.setTelefone(usuarioRequest.getTelefone());
+        client.setNome(usuarioRequest.nome());
+        client.setCpf(usuarioRequest.cpf());
+        client.setEmail(usuarioRequest.email());
+        client.setTelefone(usuarioRequest.telefone());
 
         client.getCarrosRegistrados().clear();
 
-        List<Car> cars = usuarioRequest.getCarrosRegistrados().stream().map(carroDTO -> {
+        List<Car> cars = usuarioRequest.carrosRegistrados().stream().map(carroDTO -> {
             Car car = new Car();
             car.setPlaca(carroDTO.getPlaca());
             car.setModelo(carroDTO.getModelo());

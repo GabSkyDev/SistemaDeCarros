@@ -7,17 +7,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskMapper {
     public TaskResponseDTO toResponseDTO(Task servico){
-        TaskResponseDTO dto = new TaskResponseDTO();
-        dto.setDescricao(servico.getDescricao());
-        dto.setDataServico(servico.getDataServico());
-        dto.setValorPago(servico.getValorPago());
-        dto.setMecanicaId(servico.getMechanical().getId());
-        dto.setMecanicaNome(servico.getMechanical().getNome());
-        if (servico.getCar() != null) {
-            dto.setCarroId(servico.getCar().getId());
-            dto.setPlacaCarro(servico.getCar().getPlaca());
-            dto.setModeloCarro(servico.getCar().getModelo());
-        }
+        TaskResponseDTO dto = new TaskResponseDTO(
+                servico.getDescricao(),
+                servico.getDataServico(),
+                servico.getValorPago(),
+                servico.getMechanical().getId(),
+                servico.getMechanical().getNome(),
+                servico.getCar().getId(),
+                servico.getCar().getPlaca(),
+                servico.getCar().getModelo()
+
+        );
+
         return dto;
     }
 }

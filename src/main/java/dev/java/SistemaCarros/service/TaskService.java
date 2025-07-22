@@ -41,19 +41,19 @@ public class TaskService {
     }
 
     public TaskResponseDTO criarServico(TaskRequestDTO servicoDTO) {
-        Mechanical mecanica = mechanicalRepository.findById(servicoDTO.getMecanicaId())
+        Mechanical mecanica = mechanicalRepository.findById(servicoDTO.mecanicaId())
                 .orElseThrow(() -> new RuntimeException("Mecânica não encontrada"));
 
         Car car = null;
-        if (servicoDTO.getCarroId() != null) {
-            car = carRepository.findById(servicoDTO.getCarroId())
+        if (servicoDTO.carroId() != null) {
+            car = carRepository.findById(servicoDTO.carroId())
                     .orElseThrow(() -> new RuntimeException("Carro não encontrado"));
         }
 
         Task servico = new Task();
-        servico.setDescricao(servicoDTO.getDescricao());
-        servico.setDataServico(servicoDTO.getDataServico());
-        servico.setValorPago(servicoDTO.getValorPago());
+        servico.setDescricao(servicoDTO.descricao());
+        servico.setDataServico(servicoDTO.dataServico());
+        servico.setValorPago(servicoDTO.valorPago());
         servico.setMechanical(mecanica);
         servico.setCar(car);
         taskRepository.save(servico);
@@ -73,18 +73,18 @@ public class TaskService {
         Task servico = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
 
-        Mechanical mecanica = mechanicalRepository.findById(dto.getMecanicaId())
+        Mechanical mecanica = mechanicalRepository.findById(dto.mecanicaId())
                 .orElseThrow(() -> new RuntimeException("Mecânica não encontrada"));
 
         Car car = null;
-        if (dto.getCarroId() != null) {
-            car = carRepository.findById(dto.getCarroId())
+        if (dto.carroId() != null) {
+            car = carRepository.findById(dto.carroId())
                     .orElseThrow(() -> new RuntimeException("Carro não encontrado"));
         }
 
-        servico.setDescricao(dto.getDescricao());
-        servico.setDataServico(dto.getDataServico());
-        servico.setValorPago(dto.getValorPago());
+        servico.setDescricao(dto.descricao());
+        servico.setDataServico(dto.dataServico());
+        servico.setValorPago(dto.valorPago());
         servico.setMechanical(mecanica);
         servico.setCar(car);
 

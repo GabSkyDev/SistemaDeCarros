@@ -19,9 +19,13 @@ public class Client {
     private String nome;
     private String email;
     private String telefone;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Car> carrosRegistrados = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private List<Car> carrosRegistrados = new ArrayList<>();
     public Client(){
 
     }

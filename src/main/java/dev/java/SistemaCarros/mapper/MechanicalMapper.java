@@ -26,15 +26,15 @@ public class MechanicalMapper {
     public Mechanical toEntity(MechanicalRequestDTO mecanicaDTO){
         Mechanical mecanica = new Mechanical();
 
-        mecanica.setId(mecanicaDTO.getId());
-        mecanica.setCnpj(mecanicaDTO.getCnpj());
-        mecanica.setNome(mecanicaDTO.getNome());
-        mecanica.setEndereco(mecanicaDTO.getEndereco());
-        mecanica.setEmail(mecanicaDTO.getEmail());
-        mecanica.setEspecialidades(mecanicaDTO.getEspecialidades());
-        mecanica.setHorarios(mecanicaDTO.getHorarios());
+        mecanica.setId(mecanicaDTO.id());
+        mecanica.setCnpj(mecanicaDTO.cnpj());
+        mecanica.setNome(mecanicaDTO.nome());
+        mecanica.setEndereco(mecanicaDTO.endereco());
+        mecanica.setEmail(mecanicaDTO.email());
+        mecanica.setEspecialidades(mecanicaDTO.especialidades());
+        mecanica.setHorarios(mecanicaDTO.horarios());
 
-        List<Task> servicos = mecanicaDTO.getServicos().stream().map(mecDTO -> {
+        List<Task> servicos = mecanicaDTO.servicos().stream().map(mecDTO -> {
             Task servico = new Task();
             servico.setId(mecDTO.getId());
             servico.setDataServico(mecDTO.getDataServico());

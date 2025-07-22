@@ -59,15 +59,15 @@ public class MechanicalService {
         Mechanical mecanica = mechanicalRepository.findById(id)
                 .orElseThrow(() ->  new RuntimeException("Mecânica não encontrada!"));;
 
-        mecanica.setNome(mecanicaRequest.getNome());
-        mecanica.setCnpj(mecanicaRequest.getCnpj());
-        mecanica.setEmail(mecanicaRequest.getEmail());
-        mecanica.setEndereco(mecanicaRequest.getEndereco());
-        mecanica.setHorarios(mecanicaRequest.getHorarios());
-        mecanica.setEspecialidades(mecanicaRequest.getEspecialidades());
+        mecanica.setNome(mecanicaRequest.nome());
+        mecanica.setCnpj(mecanicaRequest.cnpj());
+        mecanica.setEmail(mecanicaRequest.email());
+        mecanica.setEndereco(mecanicaRequest.endereco());
+        mecanica.setHorarios(mecanicaRequest.horarios());
+        mecanica.setEspecialidades(mecanicaRequest.especialidades());
 
         mecanica.getEspecialidades().clear();
-        List<Task> servicos = mecanicaRequest.getServicos().stream().map(mecDTO -> {
+        List<Task> servicos = mecanicaRequest.servicos().stream().map(mecDTO -> {
             Task servico = new Task();
             servico.setId(mecDTO.getId());
             servico.setDataServico(mecDTO.getDataServico());

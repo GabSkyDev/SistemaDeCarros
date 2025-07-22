@@ -27,14 +27,14 @@ public class CarMapper {
     public Car toEntity(CarRequestDTO carroDTO){
         Car car = new Car();
 
-        car.setId(carroDTO.getId());
-        car.setPlaca(carroDTO.getPlaca());
-        car.setModelo(carroDTO.getModelo());
-        car.setMarca(carroDTO.getMarca());
-        car.setCor(carroDTO.getCor());
-        car.setAnoFabricacao(carroDTO.getAnoFabricacao());
-        car.setTipoCombustivel(carroDTO.getTipoCombustivel());
-        car.setTransmissao(carroDTO.getTransmissao());
+        car.setId(carroDTO.id());
+        car.setPlaca(carroDTO.placa());
+        car.setModelo(carroDTO.modelo());
+        car.setMarca(carroDTO.marca());
+        car.setCor(carroDTO.cor());
+        car.setAnoFabricacao(carroDTO.anoFabricacao());
+        car.setTipoCombustivel(carroDTO.tipoCombustivel());
+        car.setTransmissao(carroDTO.transmissao());
 
         return car;
     }

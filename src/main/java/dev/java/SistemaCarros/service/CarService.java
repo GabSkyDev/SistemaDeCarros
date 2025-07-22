@@ -65,13 +65,13 @@ public class CarService {
                 .filter(c -> c.getClient().getId().equals(id))
                 .orElseThrow(() ->  new RuntimeException("Carro não encontrado para este usuário"));
 
-        car.setPlaca(carroRequest.getPlaca());
-        car.setMarca(carroRequest.getMarca());
-        car.setModelo(carroRequest.getModelo());
-        car.setCor(carroRequest.getCor());
-        car.setAnoFabricacao(carroRequest.getAnoFabricacao());
-        car.setTipoCombustivel(carroRequest.getTipoCombustivel());
-        car.setTransmissao(carroRequest.getTransmissao());
+        car.setPlaca(carroRequest.placa());
+        car.setMarca(carroRequest.marca());
+        car.setModelo(carroRequest.modelo());
+        car.setCor(carroRequest.cor());
+        car.setAnoFabricacao(carroRequest.anoFabricacao());
+        car.setTipoCombustivel(carroRequest.tipoCombustivel());
+        car.setTransmissao(carroRequest.transmissao());
 
         Car carAtualizado = carRepository.save(car);
         return carMapper.toResponseDTO(carAtualizado);

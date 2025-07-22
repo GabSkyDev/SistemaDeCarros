@@ -1,73 +1,31 @@
 package dev.java.SistemaCarros.dto;
 
 import dev.java.SistemaCarros.model.Car;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ClientRequestDTO {
-    private Long id;
-    private String cpf;
-    private String nome;
-    private String email;
-    private String telefone;
-    private List<Car> carrosRegistrados = new ArrayList<>();
-    public ClientRequestDTO(){
-
-    }
+public record ClientRequestDTO (
+        Long id,
+        String cpf,
+        String nome,
+        String email,
+        String telefone,
+        List<Car> carrosRegistrados){
     public ClientRequestDTO(Long id, String cpf, String nome, String email, String telefone) {
-        this.id = id;
-        this.cpf = cpf;
-        this.nome = nome;
-        this.email = email;
-        this.telefone = telefone;
+        this(id, cpf, nome, email, telefone, new ArrayList<>());
+
     }
 
-    public Long getId() {
-        return id;
-    }
+    public ClientRequestDTO {
+        Objects.requireNonNull(nome, "Nome não pode ser nulo.");
 
-    public void setId(Long id) {
-        this.id = id;
+        // Validação de CPF
+        if (cpf != null && !cpf.matches("\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}")) {
+            throw new IllegalArgumentException("Formato de CPF inválido.");
+        }
     }
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public List<Car> getCarrosRegistrados() {
-        return carrosRegistrados;
-    }
-
-    public void setCarrosRegistrados(List<Car> carrosRegistrados) {
-        this.carrosRegistrados = carrosRegistrados;
-    }
-
 }
