@@ -1,18 +1,38 @@
 package dev.java.SistemaCarros.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.Year;
 import java.util.Objects;
-
+@Schema(description = "Objeto utilizado para criar ou atualizar dados de um carro")
 public record CarRequestDTO (
+        @Schema(description = "ID do carro (usado em atualizações)", example = "10")
         Long id,
+
+        @Schema(description = "Placa do veículo no formato ABC-1234", example = "ABC-1234", required = true)
         String placa,
+
+        @Schema(description = "Modelo do carro", example = "Civic", required = true)
         String modelo,
+
+        @Schema(description = "Marca do carro", example = "Honda", required = true)
         String marca,
+
+        @Schema(description = "Ano de fabricação do veículo", example = "2022", required = true)
         Integer anoFabricacao,
+
+        @Schema(description = "Cor do carro", example = "Prata")
         String cor,
+
+        @Schema(description = "Tipo de combustível utilizado", example = "Gasolina")
         String tipoCombustivel,
+
+        @Schema(description = "Tipo de transmissão", example = "Automática")
         String transmissao,
-        String cpfUsuario){
+
+        @Schema(description = "CPF do usuário dono do carro", example = "123.456.789-00", required = true)
+        String cpfUsuario
+    ){
     public CarRequestDTO {
         // Validação de nulidade
         Objects.requireNonNull(placa, "Placa do veículo não pode ser nula.");

@@ -1,15 +1,29 @@
 package dev.java.SistemaCarros.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Schema(description = "Objeto utilizado para criar ou atualizar dados de um serviço realizado")
 public record TaskRequestDTO (
+        @Schema(description = "ID do serviço (usado em atualizações)", example = "1")
         Long id,
+
+        @Schema(description = "Descrição detalhada do serviço realizado", example = "Troca de óleo e filtro", required = true)
         String descricao,
+
+        @Schema(description = "Data em que o serviço foi realizado", example = "2024-06-15", required = true)
         LocalDate dataServico,
+
+        @Schema(description = "Valor pago pelo serviço", example = "250.00", required = true)
         BigDecimal valorPago,
+
+        @Schema(description = "ID da mecânica responsável pelo serviço", example = "5", required = true)
         Long mecanicaId,
+
+        @Schema(description = "ID do carro que recebeu o serviço", example = "12", required = true)
         Long carroId){
     public TaskRequestDTO {
         // Validação de descrição

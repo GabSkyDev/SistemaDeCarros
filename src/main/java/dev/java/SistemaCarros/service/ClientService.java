@@ -23,11 +23,11 @@ public class ClientService {
         this.clientMapper = clientMapper;
     }
 
-    public List<ClientRequestDTO> buscarTodosUsuarios(){
+    public List<ClientResponseDTO> buscarTodosUsuarios(){
         List<Client> clients = clientRepository.findAll();
         return clients
                 .stream()
-                .map(clientMapper::toRequestDTO)
+                .map(clientMapper::toResponseDTO)
                 .toList();
     }
 
@@ -79,13 +79,13 @@ public class ClientService {
 
         List<Car> cars = usuarioRequest.carrosRegistrados().stream().map(carroDTO -> {
             Car car = new Car();
-            car.setPlaca(carroDTO.getPlaca());
-            car.setModelo(carroDTO.getModelo());
-            car.setMarca(carroDTO.getMarca());
-            car.setAnoFabricacao(carroDTO.getAnoFabricacao());
-            car.setCor(carroDTO.getCor());
-            car.setTipoCombustivel(carroDTO.getTipoCombustivel());
-            car.setTransmissao(carroDTO.getTransmissao());
+            car.setPlaca(carroDTO.placa());
+            car.setModelo(carroDTO.modelo());
+            car.setMarca(carroDTO.marca());
+            car.setAnoFabricacao(carroDTO.anoFabricacao());
+            car.setCor(carroDTO.cor());
+            car.setTipoCombustivel(carroDTO.tipoCombustivel());
+            car.setTransmissao(carroDTO.transmissao());
             car.setClient(client);
             return car;
         }).toList();

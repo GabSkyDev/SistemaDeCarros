@@ -1,9 +1,6 @@
 package dev.java.SistemaCarros.mapper;
 
-import dev.java.SistemaCarros.dto.CarRequestDTO;
-import dev.java.SistemaCarros.dto.ClientWithCarsDTO;
-import dev.java.SistemaCarros.dto.ClientRequestDTO;
-import dev.java.SistemaCarros.dto.ClientResponseDTO;
+import dev.java.SistemaCarros.dto.*;
 import dev.java.SistemaCarros.model.Car;
 import dev.java.SistemaCarros.model.Client;
 import org.springframework.stereotype.Component;
@@ -32,10 +29,9 @@ public class ClientMapper {
     }
 
     public ClientWithCarsDTO toClientWithCarsDTO(Client client){
-        List<CarRequestDTO> carros = client.getCarrosRegistrados()
+        List<CarResponseDTO> carros = client.getCarrosRegistrados()
                 .stream()
-                .map(carro -> new CarRequestDTO(
-                        carro.getId(),
+                .map(carro -> new CarResponseDTO(
                         carro.getPlaca(),
                         carro.getModelo(),
                         carro.getMarca(),
@@ -48,7 +44,6 @@ public class ClientMapper {
                 .toList();
 
         return new ClientWithCarsDTO(
-                client.getId(),
                 client.getCpf(),
                 client.getNome(),
                 client.getEmail(),
@@ -68,13 +63,13 @@ public class ClientMapper {
 
         List<Car> cars = usuarioDTO.carrosRegistrados().stream().map(carroDTO ->{
             Car car = new Car();
-            car.setPlaca(carroDTO.getPlaca());
-            car.setModelo(carroDTO.getModelo());
-            car.setMarca(carroDTO.getMarca());
-            car.setAnoFabricacao(carroDTO.getAnoFabricacao());
-            car.setCor(carroDTO.getCor());
-            car.setTipoCombustivel(carroDTO.getTipoCombustivel());
-            car.setTransmissao(carroDTO.getTransmissao());
+            car.setPlaca(carroDTO.placa());
+            car.setModelo(carroDTO.modelo());
+            car.setMarca(carroDTO.marca());
+            car.setAnoFabricacao(carroDTO.anoFabricacao());
+            car.setCor(carroDTO.cor());
+            car.setTipoCombustivel(carroDTO.tipoCombustivel());
+            car.setTransmissao(carroDTO.transmissao());
             car.setClient(client);
             return car;
         }).toList();
