@@ -6,6 +6,7 @@
 ![JPA](https://img.shields.io/badge/JPA-Hibernate-orange.svg)
 ![Lombok](https://img.shields.io/badge/Lombok-%E2%9C%94-green.svg)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
+![Swagger](https://img.shields.io/badge/Documentação-Swagger-green.svg)
 
 
 ## Status do Projeto
@@ -17,6 +18,7 @@
 - **Framework:** Spring Boot (Spring MVC, Spring Data JPA)
 - **Banco de Dados:** MySQL
 - **Gerenciamento de Dependências:** Maven
+- **Documentação:** Swagger
 
 
 ## Objetivo do Projeto
@@ -55,7 +57,13 @@ Este projeto tem como objetivo desenvolver uma **API REST** robusta e eficiente 
 ### Serviços
 - Registro de serviços realizados:
   - Descrição, data, valor pago, veículo associado e oficina responsável
-
+ 
+## Documentação da API (Swagger)
+- A API possui documentação interativa gerada com Swagger (via Springdoc OpenAPI), facilitando o uso e testes dos endpoints REST.
+- A documentação inclui detalhes dos endpoints, modelos de dados (DTOs), respostas esperadas e permite testes diretos pela interface.
+### Acesso
+Com o projeto rodando, acesse:
+```http://localhost:8080/swagger-ui/index.html```
 
 ## 👨‍💻 Desenvolvedor
 
