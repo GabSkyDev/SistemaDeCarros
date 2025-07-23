@@ -103,5 +103,6 @@ cd SistemaDeCarros
 ## ⚠️ Aviso Legal
 
 Este projeto é de autoria de Gabriel Lima de Sousa e está licenciado sob os termos da [Apache License 2.0](./LICENSE).  
+
 **O uso comercial não autorizado é proibido.** Para mais informações, consulte o arquivo [NOTICE](./NOTICE).
 
